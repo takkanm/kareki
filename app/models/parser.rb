@@ -39,7 +39,7 @@ module Parser
         title:        elem.title.text,
         link:         elem.link.href,
         description:  elem.summary.text,
-        published_at: Time.parse(elem.published.text),
+        published_at: Time.zone.parse(elem.published.text),
         author:       elem.author.nodes.map(&:text).join('&')
       )
     end
@@ -68,7 +68,7 @@ module Parser
         title:        elem.title.text,
         link:         elem.link.text,
         description:  elem.description.text,
-        published_at: Time.parse(elem.pubDate.text),
+        published_at: Time.zone.parse(elem.pubDate.text),
         author:       nil
       )
     end
