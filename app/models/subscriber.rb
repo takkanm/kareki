@@ -1,7 +1,7 @@
 module Subscriber
   class Idobata
     def initialize
-      @hook_url =ENV['IDOBATA_SUBSCRIBER_HOOK_URL']
+      @hook_url = ENV['IDOBATA_SUBSCRIBER_HOOK_URL']
       @client   = IdobataHook::Client.new(@hook_url)
     end
 
