@@ -13,8 +13,13 @@ class Feed < ApplicationRecord
     parser = Parser.load(feed_text)
 
     parser.each_items do |item|
-      subscriber.push(item)
+      p [item.published_at, crawled_at]
+      subscriber.push(item) if crawled_at&.< item.published_at
+      break
     end
+
+    self.crawled_at = Time.now
+    save!
   end
 
   def feed_text
