@@ -26,6 +26,6 @@ class Feed < ApplicationRecord
   end
 
   def feed_text
-    Net::HTTP.get(URI.parse(url))
+    HTTPClient.get(url).body
   end
 end
