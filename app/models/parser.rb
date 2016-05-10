@@ -1,12 +1,19 @@
 module Parser
   def self.load(text)
     ox = Ox.parse(text)
-    if ox.root.xmlns == 'http://www.w3.org/2005/Atom'
-      Parser::Atom.new(ox.root)
-    elsif ox.value.nil? && ox.root.value == 'rss'
-      Parser::Rss.new(ox)
+    if ox.root.respond_to?(:xmlns)
+      case ox.root.xmlns
+      when 'http://www.w3.org/2005/Atom'
+        Parser::Atom.new(ox.root)
+      when 'http://purl.org/rss/1.0/'
+        Parser::Rss1.new(ox)
+      end
     else
-      raise
+      if ox.root.value == 'rss'
+-      Parser::Rss.new(ox)
+      else
+        raise
+      end
     end
   end
 
@@ -57,7 +64,7 @@ module Parser
     end
 
     def each_items
-      @channel.nodes.each do |elem|
+      item_nodes.each do |elem|
         next unless elem.value == 'item'
 
         yield build_feed_item(elem)
@@ -66,15 +73,35 @@ module Parser
 
     private
 
+    def item_nodes
+      @channel.nodes
+    end
+
     def build_feed_item(elem)
       FeedItem.new(
         blog_title:   @blog_title,
         title:        elem.title.text,
         link:         elem.link.text,
         description:  elem.description.text,
-        published_at: Time.zone.parse(elem.pubDate.text),
+        published_at: Time.zone.parse(date_text(elem)),
         author:       nil
       )
+    end
+
+    def date_text(elem)
+      elem.pubDate.text
+    end
+  end
+
+  class Rss1 < Rss
+    private
+
+    def item_nodes
+      @document.root.nodes
+    end
+
+    def date_text(elem)
+      elem.locate('dc:date').first.text
     end
   end
 end
