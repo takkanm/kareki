@@ -1,8 +1,8 @@
 module Parser
   def self.load(text)
     ox = Ox.parse(text)
-    if ox.value == 'feed'
-      Parser::Atom.new(ox)
+    if ox.root.xmlns == 'http://www.w3.org/2005/Atom'
+      Parser::Atom.new(ox.root)
     elsif ox.value.nil? && ox.root.value == 'rss'
       Parser::Rss.new(ox)
     else
@@ -38,10 +38,14 @@ module Parser
         blog_title:   @blog_title,
         title:        elem.title.text,
         link:         elem.link.href,
-        description:  elem.summary.text,
+        description:  find_or_blank_node(elem, 'summary'),
         published_at: Time.zone.parse(elem.published.text),
         author:       elem.author.nodes.map(&:text).join('&')
       )
+    end
+
+    def find_or_blank_node(elem, node_name)
+      elem.locate(node_name).first&.text
     end
   end
 
