@@ -6,7 +6,7 @@
   <thead>
     <tr>
       <th>Url</th>
-      <th>Last updated at</th>
+      <th>Crawled At</th>
       <th>Title</th>
       <th colspan="3"></th>
     </tr>
@@ -16,7 +16,7 @@
     <% @feeds.each do |feed| %>
       <tr>
         <td><%= feed.url %></td>
-        <td><%= feed.last_updated_at %></td>
+        <td><%= feed.crawled_at %></td>
         <td><%= feed.title %></td>
         <td><%= link_to 'Show', feed %></td>
         <td><%= link_to 'Edit', edit_feed_path(feed) %></td>
