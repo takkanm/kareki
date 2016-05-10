@@ -46,9 +46,17 @@ module Parser
         title:        elem.title.text,
         link:         elem.link.href,
         description:  find_or_blank_node(elem, 'summary'),
-        published_at: Time.zone.parse(elem.published.text),
+        published_at: Time.zone.parse(date_text(elem)),
         author:       elem.author.nodes.map(&:text).join('&')
       )
+    end
+
+    def date_text(elem)
+      if elem.respond_to?(:published)
+        elem.published.text
+      else
+        elem.updated.text
+      end
     end
 
     def find_or_blank_node(elem, node_name)
