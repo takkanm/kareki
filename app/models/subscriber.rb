@@ -7,8 +7,8 @@ module Subscriber
 
     def push(item)
       message = create_message(item)
-      puts message
-      # @client.send(message, format: :html)
+
+      @client.send(message, format: :html)
     end
 
     private
