@@ -4,7 +4,11 @@ class Feed < ApplicationRecord
       subscriber = subscriber_class.new
 
       all.each do |feed|
-        feed.crawl_and_push(subscriber)
+        begin
+          feed.crawl_and_push(subscriber)
+        rescue => e
+          Rails.logger.error e
+        end
       end
     end
   end
