@@ -25,6 +25,7 @@ class FeedsController < ApplicationController
   # POST /feeds.json
   def create
     @feed = Feed.new(feed_params)
+    @feed.crawled_at = Time.current
 
     respond_to do |format|
       if @feed.save
