@@ -18,7 +18,6 @@ class Feed < ApplicationRecord
 
     parser.each_items do |item|
       subscriber.push(item) if crawled_at&.< item.published_at
-      break
     end
 
     self.crawled_at = Time.now
