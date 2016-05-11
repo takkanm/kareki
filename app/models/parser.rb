@@ -1,23 +1,21 @@
 module Parser
   def self.load(text)
     ox = Ox.parse(text)
-    if ox.root.respond_to?(:xmlns)
-      case ox.root.xmlns
-      when 'http://www.w3.org/2005/Atom'
-        Parser::Atom.new(ox.root)
-      when 'http://purl.org/rss/1.0/'
-        Parser::Rss1.new(ox)
-      end
-    else
-      if ox.root.value == 'rss'
--      Parser::Rss.new(ox)
-      else
-        raise
+
+    [Parser::Atom, Parser::Rss1, Parser::Rss].each do |parser_class|
+      if parser_class.applicable?(ox)
+        return parser_class.new(ox)
       end
     end
+
+    raise
   end
 
   class Base
+    def self.applicable?(doc)
+      false
+    end
+
     def initialize(document)
       @document= document
     end
@@ -28,10 +26,14 @@ module Parser
   end
 
   class Atom < Base
-    def each_items
-      @blog_title = @document.title.text
+    def self.applicable?(doc)
+      doc.root.xmlns == 'http://www.w3.org/2005/Atom'
+    end
 
-      @document.nodes.each do |elem|
+    def each_items
+      @blog_title = @document.root.title.text
+
+      @document.root.nodes.each do |elem|
         next unless elem.value == 'entry'
 
         yield build_feed_item(elem)
@@ -65,6 +67,10 @@ module Parser
   end
 
   class Rss < Base
+    def self.applicable?(doc)
+      ox.root.value == 'rss'
+    end
+
     def initialize(document)
       super
       @channel    = @document.root.channel
@@ -102,6 +108,10 @@ module Parser
   end
 
   class Rss1 < Rss
+    def self.applicable?(doc)
+      doc.root.xmlns == 'http://purl.org/rss/1.0/'
+    end
+
     private
 
     def item_nodes
