@@ -12,5 +12,8 @@
   "addons": [
     "heroku-postgresql",
     "scheduler:standard"
-  ]
+  ],
+  "scripts": {
+    "postdeploy": "bundle exec rake db:migrate"
+  }
 }
