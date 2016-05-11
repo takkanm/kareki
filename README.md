@@ -4,6 +4,8 @@
 
 ## What's this application
 
+Collect some RSS/Atom feeds, and send to somewhere.
+
 ## Deploy to Heroku
 
 You can deploy to Heroku use heroku buttion on README.
