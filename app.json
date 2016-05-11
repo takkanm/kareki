@@ -8,7 +8,10 @@
     "IDOBATA_SUBSCRIBER_HOOK_URL": "Idobata Hook Url"
     },
   },
+"logo": "https://avatars1.githubusercontent.com/u/43500?v=3&s=140",
+"success_url": "/feeds",
   "addons": [
-    "scheduler:standard",
+    "heroku-postgresql",
+    "scheduler:standard"
   ]
 }
