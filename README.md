@@ -1,26 +1,16 @@
-# README
+# kareki
 
 [![Heroku Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/takkanm/kareki)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## What's this application
 
-Things you may want to cover:
+## Deploy to Heroku
 
-* Ruby version
+You can deploy to Heroku use heroku buttion on README.
+You should set some Enviroment Variables, and create.
+If deploy Heroku, you should set Heroku Scheduler.
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```
+# if you send idobata
+bundle exec rails runner 'Feed.crawl_and_push(Subscriber::Idobata)'
+```
