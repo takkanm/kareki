@@ -1,5 +1,7 @@
 # README
 
+[![Heroku Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/takkanm/kareki)
+
 This README would normally document whatever steps are necessary to get the
 application up and running.
 
