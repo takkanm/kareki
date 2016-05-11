@@ -1,18 +1,13 @@
 {
   "name": "Kareki"
   "description": "Collect Some RSS Feeds",
-  "keywords": [
-    "RSS",
-  ],
   "website": "https://github.com/takkanm/kareki",
   "repository": "https://github.com/takkanm/kareki",
-  "logo": ""
   "success_url": "/feeds",
   "env": {
     "IDOBATA_SUBSCRIBER_HOOK_URL": "Idobata Hook Url"
     },
   },
-  "image": "heroku/ruby",
   "addons": [
     "scheduler:standard",
   ]
