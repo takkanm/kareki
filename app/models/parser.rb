@@ -27,6 +27,8 @@ module Parser
 
   class Atom < Base
     def self.applicable?(doc)
+      return false unless doc.root.respond_to?(:xmlns)
+
       doc.root.xmlns == 'http://www.w3.org/2005/Atom'
     end
 
@@ -68,7 +70,9 @@ module Parser
 
   class Rss < Base
     def self.applicable?(doc)
-      ox.root.value == 'rss'
+      return false unless doc.root.respond_to?(:value)
+
+      doc.root.value == 'rss'
     end
 
     def initialize(document)
@@ -109,6 +113,8 @@ module Parser
 
   class Rss1 < Rss
     def self.applicable?(doc)
+      return false unless doc.root.respond_to?(:xmlns)
+
       doc.root.xmlns == 'http://purl.org/rss/1.0/'
     end
 
