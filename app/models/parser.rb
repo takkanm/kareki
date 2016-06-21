@@ -27,15 +27,15 @@ module Parser
 
   class Atom < Base
     def self.applicable?(doc)
-      return false unless doc.root.respond_to?(:xmlns)
+      return false unless doc.respond_to?(:xmlns)
 
-      doc.root.xmlns == 'http://www.w3.org/2005/Atom'
+      doc.xmlns == 'http://www.w3.org/2005/Atom'
     end
 
     def each_items
-      @blog_title = @document.root.title.text
+      @blog_title = @document.title.text
 
-      @document.root.nodes.each do |elem|
+      @document.nodes.each do |elem|
         next unless elem.value == 'entry'
 
         yield build_feed_item(elem)
