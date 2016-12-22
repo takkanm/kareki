@@ -26,10 +26,22 @@ module Parser
   end
 
   class Atom < Base
-    def self.applicable?(doc)
-      return false unless doc.respond_to?(:xmlns)
+    class << self
+      def applicable?(doc)
+        find_url(doc) == 'http://www.w3.org/2005/Atom'
+      end
 
-      doc.xmlns == 'http://www.w3.org/2005/Atom'
+      private
+
+      def find_url(doc)
+        if doc.respond_to?(:xmlns)
+          doc.xmlns
+        elsif doc.nodes.first.attributes[:xmlns]
+          doc.nodes.first.attributes[:xmlns]
+        else
+          nil
+        end
+      end
     end
 
     def each_items
