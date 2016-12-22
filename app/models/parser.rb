@@ -17,7 +17,7 @@ module Parser
     end
 
     def initialize(document)
-      @document= document
+      @document = document
     end
 
     def each_items
