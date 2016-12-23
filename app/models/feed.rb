@@ -9,6 +9,8 @@ class Feed < ApplicationRecord
         rescue => e
           Rails.logger.error "feed('#{feed.title}(#{feed.id}) has error : #{e.inspect}"
           Rails.logger.error e.backtrace
+
+          subscriber.error_push "feed crawl error : #{feed.url}"
         end
       end
     end

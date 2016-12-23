@@ -4,6 +4,10 @@ module Subscriber
       puts create_message(item)
     end
 
+    def error_push(message)
+      puts message
+    end
+
     private
 
     def create_message(item)
@@ -20,6 +24,10 @@ module Subscriber
     def push(item)
       message = create_message(item)
 
+      @client.send(message, format: :html)
+    end
+
+    def error_push(message)
       @client.send(message, format: :html)
     end
 
