@@ -46,9 +46,10 @@ module Parser
     end
 
     def each_items
-      @blog_title = @document.title.text
+      root = @document.respond_to?(:xmlns) ? @document : @document.root
+      @blog_title = root.title.text
 
-      @document.nodes.each do |elem|
+      root.nodes.each do |elem|
         next unless elem.value == 'entry'
 
         yield build_feed_item(elem)
