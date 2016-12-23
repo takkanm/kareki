@@ -1,4 +1,5 @@
 module Parser
+  class NotFoundError < RuntimeError; end
   def self.load(text)
     ox = Ox.parse(text)
 
@@ -8,7 +9,7 @@ module Parser
       end
     end
 
-    raise
+    raise Parser::NotFoundError
   end
 
   class Base

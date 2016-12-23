@@ -6,11 +6,11 @@ class Feed < ApplicationRecord
       all.each do |feed|
         begin
           feed.crawl_and_push(subscriber)
+        rescue Parser::NotFoundError
+          subscriber.error_push "feed crawl error : #{feed.url}" if ENV['DEBUG_NOTIFICATION']
         rescue => e
           Rails.logger.error "feed('#{feed.title}(#{feed.id}) has error : #{e.inspect}"
           Rails.logger.error e.backtrace
-
-          subscriber.error_push "feed crawl error : #{feed.url}" if ENV['DEBUG_NOTIFICATION']
         end
       end
     end
