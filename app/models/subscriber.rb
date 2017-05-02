@@ -1,4 +1,9 @@
 module Subscriber
+  class Nop
+    def push(item); end
+    def error_push(message); end
+  end
+
   class Stdout
     def push(item)
       puts create_message(item)

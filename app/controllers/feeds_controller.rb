@@ -30,7 +30,15 @@ class FeedsController < ApplicationController
 
     respond_to do |format|
       if @feed.save
-        format.html { redirect_to @feed, notice: 'Feed was successfully created.' }
+        notice_message = 'Feed was successfully created.'
+        begin
+          @feed.crawl_and_push(Subscriber::Nop.new)
+        rescue => e
+          Rails.logger.error e.message
+          notice_message = 'Feed was successfully created. But, crawl failed'
+        end
+
+        format.html { redirect_to @feed, notice: notice_message}
         format.json { render :show, status: :created, location: @feed }
       else
         format.html { render :new }
