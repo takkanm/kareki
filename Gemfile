@@ -14,6 +14,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'idobata_hook'
 gem 'pg'
 gem 'httpclient'
+gem 'slack-ruby-client'
 
 group :development, :test do
   gem 'byebug', platform: :mri
